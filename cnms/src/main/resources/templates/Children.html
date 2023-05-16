@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="/css/tableStyle.css">
+</head>
+<body>
+<main>
+  <table class="customer-table">
+    <caption>Children</caption>
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Child Name</th>
+      <th>Father Name</th>
+      <th>Father Phone</th>
+      <th>Mother Name</th>
+      <th>Mother Phone</th>
+      <th>Guardian Name</th>
+      <th>Date of Birth</th>
+      <th>Gender</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+      <td colspan="3">
+        CNMS Children list.
+      </td>
+    </tr>
+    </tfoot>
+    <tbody>
+    <tr th:each="child : ${childrenList}" >
+      <td th:field="${child.id}"></td>
+      <td th:field="${child.name}"></td>
+      <td th:field="${child.fatherName}"></td>
+      <td th:field="${child.fatherPhoneNumber}"></td>
+      <td th:field="${child.motherName}"></td>
+      <td th:field="${child.motherPhoneNumber}"></td>
+      <td th:field="${child.guardianName}"></td>
+      <td th:field="${child.dateOfBirth}"></td>
+      <td th:field="${child.gender}"></td>
+      <td>
+        <a th:href="@{/user/update_child/${child.id}"><i class="fa fa-pencil"></i></a>
+        <a th:href="@{/user/delete_child/${child.id}"><i class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

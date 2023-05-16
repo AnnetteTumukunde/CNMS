@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup user</title>
+  <link rel="stylesheet" th:href="@{/css/signupStyle.scss}" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+    .container {
+      padding: 2rem;
+      margin: 4rem auto;
+      max-width: 400px;
+      background-color: #fff;
+      border-radius: 8px;
+    }
+    h1 {
+      font-size: 2rem;
+      line-height: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+    .floating-label {
+      position:  relative;
+      margin-bottom:  1.5rem;
+    //height: 72px;
+    }
+
+    .label {
+      position:  absolute;
+      top: 0;
+      left:  0.625rem;
+      opacity:  0;
+      font-size: 0.875rem;
+      line-height: 1rem;
+      font-weight: 600;
+      padding: 0 0.25rem;
+      color: #666666;
+      transition:  all .3s ease;
+      display: block;
+      background-color: #fff;
+    }
+    .optional {
+      position:  absolute;
+      top: -0.5rem;
+      right:  0.625rem;
+      text-align: right;
+      font-style: italic;
+      font-size: 0.875rem;
+      line-height: 1rem;
+      padding: 0 0.25rem;
+      color: #666666;
+      display: block;
+      background-color: #fff;
+    }
+
+    .help-error-text {
+      padding: 0.25rem 0.875rem 0;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: #666666;
+    }
+
+    label.error {
+      display: block;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: #E33847;
+    }
+
+    input:not(:placeholder-shown) {
+    //padding:  28px 0px 12px 0px;
+    }
+    input:not(:placeholder-shown) + label {
+      transform:  translateY(-0.5rem);
+      opacity:  1;
+    }
+
+    input {
+      box-sizing:  border-box;
+      transition:  all .3s linear;
+      -webkit-appearance:  none;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      padding: 0.625rem 0.75rem;
+      border: 2px solid #EBEBEB;
+      border-radius: 0.25rem;
+      width: 100%;
+     }
+
+    input::placeholder {
+      color: #9F9F9F;
+    }
+
+    .button {
+      box-sizing:  border-box;
+      transition:  all .3s linear;
+      -webkit-appearance:  none;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      padding: 0.625rem 0.75rem;
+      border-radius: 0.25rem;
+      border: none;
+      background-color: #39AEFF;
+      color: #fff;
+      margin-right: 0.5rem;
+      width: 100%;
+    }
+
+    .password-toggle {
+      top: 0.5rem !important;
+      margin: 0 !important;
+      font-size: 0.75rem;
+      letter-spacing: 0.04rem;
+      font-weight: 500;
+      line-height: 1.5rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.125rem;
+      border: none;
+      color: #4D5860;
+      text-transform: uppercase;
+      background-color: #DCE3E9;
+      transition:  all .3s ease;
+    }
+
+    @media only screen and (min-width: 480px) {
+      body {
+        background-color: #39AEFF;
+      }
+      .container {
+        padding: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Sign up</h1>
+  <form id="signup-form" th:action="@{/signup}" method="post" th:object="${users}">
+    <div class="floating-label">
+      <input id="username" name="Username" type="text" placeholder="Username"/>
+      <label class="label" for="username">Name</label>
+      <label class="optional" for="username">Optional</label>
+    </div>
+    <div class="floating-label">
+      <input id="email" name="Email" type="email" placeholder="Email"/>
+      <label class="label" for="email">Email</label>
+      <div class="help-error-text"></div>
+    </div>
+    <div class="floating-label">
+      <input id="password" name="Password" type="password" placeholder="Password" minlength="8"/>
+      <label class="label" for="password">Password</label>
+      <div class="help-error-text">At least 8 characters. 1 Upper case, 1 special character and 1 numerical value</div>
+    </div>
+    <div class="floating-label">
+      <input id="phoneNumber" name="PhoneNumber" type="text" placeholder="PhoneNumber" minlength="13" maxlength="13"/>
+      <label class="label" for="phoneNumber">Phone</label>
+      <div class="help-error-text">Should be 12 characters</div>
+    </div>
+    <button class="button" type="submit">Create account</button>
+  </form>
+</div>
+</body>
+</html>
