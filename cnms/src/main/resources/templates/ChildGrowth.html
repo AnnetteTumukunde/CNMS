@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/tableStyle.css">
+</head>
+<body>
+<main>
+    <table class="customer-table">
+        <caption>Child Growth</caption>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Child Name</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>BMI</th>
+            <th>Status</th>
+            <th>Date of Record</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td colspan="3">
+                CNMS Child Growth List.
+            </td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr th:each="childGrowth : ${childGrowthList}" >
+            <td th:field="${childGrowth.id}"></td>
+            <td th:field="${childGrowth.child.name}"></td>
+            <td th:field="${childGrowth.weight}"></td>
+            <td th:field="${childGrowth.height}"></td>
+            <td th:field="${childGrowth.bmi}"></td>
+            <td th:field="${childGrowth.ebmiStatus.toString()}"></td>
+            <td th:field="${childGrowth.dateOfRecord}"></td>
+            <td>
+                <a th:href="@{/user/update_child_growth/${childGrowth.id}"><i class="fa fa-pencil"></i></a>
+                <a th:href="@{/user/delete_child_growth/${childGrowth.id}"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

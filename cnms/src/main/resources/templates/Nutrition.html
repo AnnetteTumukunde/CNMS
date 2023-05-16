@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="/css/tableStyle.css">
+</head>
+<body>
+<main>
+  <table class="customer-table">
+    <caption>Nutrition</caption>
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+      <td colspan="3">
+        CNMS Nutrition list.
+      </td>
+    </tr>
+    </tfoot>
+    <tbody>
+    <tr th:each="nutrition : ${nutritionList}" >
+      <td th:field="${nutrition.id}"></td>
+      <td th:field="${nutrition.name}"></td>
+      <td th:field="${nutrition.description}"></td>
+      <td th:field="${nutrition.type}"></td>
+      <td>
+        <a th:href="@{/admin/update_nutrition/${nutrition.id}"><i class="fa fa-pencil"></i></a>
+        <a th:href="@{/admin/delete_nutrition/${nutrition.id}"><i class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
