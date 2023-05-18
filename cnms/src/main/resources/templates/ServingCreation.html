@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Login Form UI</title>
+  <link rel="stylesheet" th:href="@{/css/sty.css}"/>
+  <link rel="stylesheet" th:href="@{/css/st.css}"/>
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
+</head>
+<body>
+<div id="viewport">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <header>
+            <div class="logo">
+                <p>CNMS</p>
+            </div>
+        </header>
+        <ul class="nav">
+            <li>
+                <a th:href="@{/dashboard}">
+                    <!--<i class="zmdi zmdi-view-dashboard"></i>--> Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/user/view_children}">
+                    <!--<i class="zmdi zmdi-link"></i>--> Child
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/user/view_child_growth}">
+                    <!--<i class="zmdi zmdi-widgets"></i>--> Child Growth
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/view_nutritions}">
+                    <!--<i class="zmdi zmdi-calendar"></i>--> Nutrition
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/Users}">
+                    <!--<i class="zmdi zmdi-info-outline"></i>--> User Management
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Content -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span sec:authentication="username"></span></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="text">
+                Nutrition
+            </div>
+            <form th:action="@{/admin/new_nutrition}" th:object="${nutrition}" method="post" enctype="multipart/form-data">
+                <div class="field">
+                    <input type="text" name="name" required/>
+                    <label>Name</label>
+                </div>
+                <div class="field">
+                    <input type="text" name="description" required/>
+                    <label>Description</label>
+                </div>
+                <br/>
+                <div class="field">
+                    <input type="text" name="type" required/>
+                    <label>Type</label>
+                </div>
+                <div class="upload">
+                    <input type="file" id="file" name="pictureFile" class="inputfile" onchange="updateLabel()"/>
+                    <label for="file" class="file-label">
+                        <i class="fa fa-upload"></i>
+                        <span id="file-label-text">Upload Picture</span>
+                    </label>
+                </div>
+                <br>
+                <br>
+                <button>Save</button>
+                </center>
+            </form>
+            <script>
+                function updateLabel() {
+                    var input = document.getElementById('file');
+                    var label = document.getElementById('file-label-text');
+
+                    if (input.files && input.files.length > 0) {
+                        label.innerHTML = input.files[0].name;
+                    } else {
+                        label.innerHTML = "Upload Picture";
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>
+   </body>
+</html>

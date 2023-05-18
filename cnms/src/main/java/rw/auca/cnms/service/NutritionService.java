@@ -1,10 +1,16 @@
 package rw.auca.cnms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import rw.auca.cnms.model.Nutrition;
+import rw.auca.cnms.model.Users;
 import rw.auca.cnms.repository.INutritionRepository;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +21,23 @@ public class NutritionService implements INutritionService{
     private INutritionRepository nutritionRepository;
 
     @Override
-    public Nutrition registerNutrition(Nutrition nutrition) {
+    public Nutrition registerNutrition(Nutrition nutrition, MultipartFile pictureFile) {
         nutrition.setCreationDate(new Date());
         nutrition.setUpdateDate(new Date());
         nutrition.setVer(0);
+        if (!pictureFile.isEmpty()) {
+            String contentType = pictureFile.getContentType();
+            if (contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("application/pdf")) {
+                try {
+                    byte[] picture = pictureFile.getBytes();
+                    nutrition.setPicture(picture);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                throw new IllegalArgumentException("Only JPEG, PNG, and PDF files are allowed.");
+            }
+        }
         return nutritionRepository.save(nutrition);
     }
 
@@ -55,5 +74,14 @@ public class NutritionService implements INutritionService{
     @Override
     public Nutrition findOneNutrition(Long id) {
         return nutritionRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<Nutrition> getPaginatedNutritions(Pageable pageable) {
+        List<Nutrition> allNutritions = findAllNutritions();
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allNutritions.size());
+
+        return new PageImpl<>(allNutritions.subList(start, end), pageable, allNutritions.size());
     }
 }

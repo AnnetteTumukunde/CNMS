@@ -1,53 +1,128 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>CNMS Child</title>
   <link rel="stylesheet" href="/css/tableStyle.css">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
 </head>
 <body>
-<main>
-  <table class="customer-table">
-    <caption>Children</caption>
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>Child Name</th>
-      <th>Father Name</th>
-      <th>Father Phone</th>
-      <th>Mother Name</th>
-      <th>Mother Phone</th>
-      <th>Guardian Name</th>
-      <th>Date of Birth</th>
-      <th>Gender</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-      <td colspan="3">
-        CNMS Children list.
-      </td>
-    </tr>
-    </tfoot>
-    <tbody>
-    <tr th:each="child : ${childrenList}" >
-      <td th:field="${child.id}"></td>
-      <td th:field="${child.name}"></td>
-      <td th:field="${child.fatherName}"></td>
-      <td th:field="${child.fatherPhoneNumber}"></td>
-      <td th:field="${child.motherName}"></td>
-      <td th:field="${child.motherPhoneNumber}"></td>
-      <td th:field="${child.guardianName}"></td>
-      <td th:field="${child.dateOfBirth}"></td>
-      <td th:field="${child.gender}"></td>
-      <td>
-        <a th:href="@{/user/update_child/${child.id}"><i class="fa fa-pencil"></i></a>
-        <a th:href="@{/user/delete_child/${child.id}"><i class="fa fa-trash"></i></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</main>
+<div id="viewport">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <header>
+      <div class="logo">
+        <p>CNMS</p>
+      </div>
+    </header>
+    <ul class="nav">
+      <li>
+        <a th:href="@{/dashboard}">
+          <!--<i class="zmdi zmdi-view-dashboard"></i>--> Dashboard
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/user/view_children}">
+          <!--<i class="zmdi zmdi-link"></i>--> Child
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/user/view_child_growth}">
+          <!--<i class="zmdi zmdi-widgets"></i>--> Child Growth
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/view_nutritions}">
+          <!--<i class="zmdi zmdi-calendar"></i>--> Nutrition
+        </a>
+      </li>
+      <li sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/Users}">
+          <!--<i class="zmdi zmdi-info-outline"></i>--> User Management
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- Content -->
+  <div id="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+          <!--<li>
+            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
+            </a>
+          </li>-->
+          <!--<li><a th:href="#">Test User</a></li>-->
+          <li><span sec:authentication="username"></span></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <main>
+        <table class="customer-table">
+          <caption>modelren</caption>
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>model Name</th>
+            <th>Father Name</th>
+            <th>Father Phone</th>
+            <th>Mother Name</th>
+            <th>Mother Phone</th>
+            <th>Guardian Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tfoot>
+          <tr>
+            <td colspan="3">
+              CNMS modelren list.
+            </td>
+          </tr>
+          </tfoot>
+          <tbody>
+          <tr th:each="model : ${childrenList}" >
+            <td th:text="${model.id}"></td>
+            <td th:text="${model.name}"></td>
+            <td th:text="${model.fatherName}"></td>
+            <td th:text="${model.fatherPhoneNumber}"></td>
+            <td th:text="${model.motherName}"></td>
+            <td th:text="${model.motherPhoneNumber}"></td>
+            <td th:text="${model.guardianName}"></td>
+            <td th:text="${model.dateOfBirth}"></td>
+            <td th:text="${model.gender}"></td>
+            <td>
+              <a th:href="@{/user/update_model/${model.id}}"><i class="fa fa-pencil"></i></a>
+              <a th:href="@{/user/delete_model/${model.id}}"><i class="fa fa-trash"></i></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <ul>
+            <li th:class="${currentPage == 0 ? 'disabled' : ''}">
+              <a th:href="@{/admin/dashboard(page=0)}">First</a>
+            </li>
+            <li th:class="${currentPage == 0 ? 'disabled' : ''}">
+              <a th:href="@{/admin/dashboard(page=__${currentPage - 1}__)}">Previous</a>
+            </li>
+            <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${pageNumber == currentPage ? 'active' : ''}">
+              <a th:href="@{/admin/dashboard(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+              <a th:href="@{/admin/dashboard(page=__${currentPage + 1}__)}">Next</a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+              <a th:href="@{/admin/dashboard(page=${totalPages - 1})}">Last</a>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -2,20 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" href="/css/homeStyle.scss">
+  <title>CNMS Home</title>
+  <link rel="stylesheet" type="text/css" href="/css/homeStyle.scss">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
 </head>
 <body>
 <div class="container">
   <nav id="nav">
     <div class="logo">
-      <a href="#">CNMS<span>Child Nutrition Management System</span></a>
+      <p>CNMS</p>
     </div> <!-- logo -->
     <ul>
-      <li><a th:href="#" class="active">Home</a></li>
-      <li><a th:href="#">Menu</a></li>
-      <li><a th:href="#">About</a></li>
-      <li><a th:href="#">Contact</a></li>
+      <li><a th:href="@{/home}" class="active">Home</a></li>
+      <li><a th:href="@{/home}">Menu</a></li>
+      <li><a th:href="@{/home}">About</a></li>
+      <li><a th:href="@{/home}">Contact</a></li>
     </ul>
     <div class="menuIcon"></div>
   </nav> <!-- nav -->
