@@ -57,8 +57,7 @@ public class AppSecurityConfiguration {
 
         http.authorizeRequests()
                 // URL matching for accessibility
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/signup")).permitAll()
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/login")).permitAll()
+                .requestMatchers("/assets/**","/js/**","/css/**","/","/signup","/login").permitAll()
                 .dispatcherTypeMatchers(HttpMethod.valueOf("/admin/**")).hasAnyAuthority("ADMIN")
                 .dispatcherTypeMatchers(HttpMethod.valueOf("/user/**")).hasAnyAuthority("USER")
                 .anyRequest().authenticated()
@@ -85,54 +84,9 @@ public class AppSecurityConfiguration {
         return http.build();
     }
 
-
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().dispatcherTypeMatchers(HttpMethod.valueOf("/images/**"))
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/js/**"))
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/webjars/**"));
+        return (web) -> web.ignoring().requestMatchers("/assets/**","/js/**","/css/**","/webjars/**");
     }
 
-
-//    @Autowired
-//    private UserService userDetailsService;
-
-////    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService);
-//    }
-//
-////    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http
-//                .authorizeRequests()
-//                .dispatcherTypeMatchers(HttpMethod.POST.valueOf("/signup/**")).permitAll()
-//                .dispatcherTypeMatchers(HttpMethod.valueOf("/admin/**")).hasRole("ADMIN")
-//                .dispatcherTypeMatchers(HttpMethod.valueOf("/user/**")).hasAnyRole("USER", "ADMIN")
-//                .anyRequest().authenticated()
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .usernameParameter("email")
-//                .defaultSuccessUrl("/nutrition")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .logoutSuccessUrl("/signup").permitAll()
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/signup")
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID");;
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }

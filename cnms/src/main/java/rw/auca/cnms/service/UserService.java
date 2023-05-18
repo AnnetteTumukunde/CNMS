@@ -1,6 +1,11 @@
 package rw.auca.cnms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,10 +16,8 @@ import rw.auca.cnms.model.Users;
 import rw.auca.cnms.repository.IRoleRepository;
 import rw.auca.cnms.repository.IUsersRepository;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService, UserDetailsService {
@@ -31,22 +34,18 @@ public class UserService implements IUserService, UserDetailsService {
         if (usersRepository.findAll().isEmpty()) {
             if (roleService.getRoles().isEmpty()) {
                 Role adminRole = new Role();
-                adminRole.setCreationDate(new Date());
-                adminRole.setUpdateDate(new Date());
-                adminRole.setVer(0);
                 adminRole.setName("ADMIN");
                 roleService.createRole(adminRole);
-                users.setRoles(Arrays.asList(adminRole));
+                users.setRole(Arrays.asList(adminRole));
             }
         } else {
             if (roleService.getRoles().size() == 1) {
                 Role userRole = new Role();
-                userRole.setCreationDate(new Date());
-                userRole.setUpdateDate(new Date());
-                userRole.setVer(0);
                 userRole.setName("USER");
                 roleService.createRole(userRole);
-                users.setRoles(Arrays.asList(userRole));
+                users.setRole(Arrays.asList(userRole));
+            } else {
+                users.setRole(Arrays.asList(roleService.getRoles().get(0)));
             }
         }
         users.setCreationDate(new Date());
@@ -67,8 +66,8 @@ public class UserService implements IUserService, UserDetailsService {
             updatedUser.setState(existingUser.getState());
             updatedUser.setEmail(users.getEmail() != null ? users.getEmail() : existingUser.getEmail());
             updatedUser.setPhoneNumber(users.getPhoneNumber() != null ? users.getPhoneNumber() : existingUser.getPhoneNumber());
-            updatedUser.setUsername(users.getUsername() != null ? users.getUsername() : existingUser.getUsername());
-            updatedUser.setRoles(users.getRoles() != null ? users.getRoles() : existingUser.getRoles());
+//            updatedUser.setUsername(users.getUsername() != null ? users.getUsername() : existingUser.getUsername());
+            updatedUser.setRole(users.getRole() != null ? users.getRole() : existingUser.getRole());
             updatedUser.setPassword(users.getPassword() != null ? users.getPassword() : existingUser.getPassword());
             updatedUser.setUpdateDate(new Date());
             Integer version = existingUser.getVer();
@@ -99,18 +98,37 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public Users loginUser(String email, String password) {
-        Optional<Users> users = usersRepository.findByUsername(email);
-        if (users.get().getPassword().equals(password)) {
-            return usersRepository.findById(users.get().getId()).orElse(null);
+        Users users = usersRepository.findByEmail(email);
+        if (users.getPassword().equals(bCryptPasswordEncoder.encode(password).toString())) {
+            return usersRepository.findById(users.getId()).orElse(null);
         }
         return null;
     }
 
     @Override
+    public Page<Users> getPaginatedUsers(Pageable pageable) {
+        List<Users> allUsers = getUsers();
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allUsers.size());
+
+        return new PageImpl<>(allUsers.subList(start, end), pageable, allUsers.size());
+    }
+
+    @Override
+    public List<Users> searchByName(String searchName) {
+        String uname = searchName;
+        List<Users> allUsers = usersRepository.searchByUserName(uname);
+        return allUsers;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return (UserDetails) usersRepository.findByUsername(email).orElseThrow(
-                ()-> new UsernameNotFoundException(
-                        String.format("USER_NOT_FOUND", email)
-                ));
+        Users user = usersRepository.findByEmail(email);
+        mapRolesToAuthorities(user.getRole());
+        return user;
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }

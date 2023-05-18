@@ -3,6 +3,7 @@ package rw.auca.cnms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import rw.auca.cnms.model.Role;
 import rw.auca.cnms.service.IRoleService;
@@ -17,28 +18,32 @@ public class RoleController {
     private IRoleService roleService;
 
     @PostMapping("/new_role")
-    public ResponseEntity<Role> createNewRole(@RequestBody Role role) {
-        return new ResponseEntity<>(roleService.createRole(role), HttpStatus.CREATED);
+    public String createNewRole(@ModelAttribute Role role) {
+        roleService.createRole(role);
+        return "redirect:/Role";
     }
 
     @PutMapping("/update_role/{id}")
-    public ResponseEntity<Role> updateExistingRole(@PathVariable("id") Long id, @RequestBody Role role) {
-        return new ResponseEntity<>(roleService.updateRole(role, id), HttpStatus.OK);
+    public String updateExistingRole(@PathVariable("id") Long id, @ModelAttribute Role role) {
+        roleService.updateRole(role, id);
+        return "redirect:/Role";
     }
 
     @DeleteMapping("/delete_role/{id}")
-    public ResponseEntity<String> deleteExistingRole(@PathVariable("id") Long id) {
+    public String deleteExistingRole(@PathVariable("id") Long id) {
         roleService.deleteRole(id);
-        return new ResponseEntity<>("Role deleted successfully!", HttpStatus.OK);
+        return "redirect:/Role";
     }
 
     @GetMapping("/role/{id}")
-    public ResponseEntity<Role> viewOneRole(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(roleService.getRole(id), HttpStatus.FOUND);
+    public String viewOneRole(@PathVariable("id") Long id) {
+        roleService.getRole(id);
+        return "ViewRole";
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<List<Role>> viewRoles() {
-        return new ResponseEntity<List<Role>>(roleService.getRoles(), HttpStatus.FOUND);
+    public String viewRoles(Model model) {
+        model.addAttribute(roleService.getRoles());
+        return "Role";
     }
 }

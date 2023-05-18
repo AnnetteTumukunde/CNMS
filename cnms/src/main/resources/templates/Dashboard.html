@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-  <link rel="stylesheet" href="/css/dashboardStyle.css">
+    <title>CNMS Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/dashboardStyle.css}">
 </head>
 <body>
 <div id="viewport">
@@ -11,28 +11,28 @@
   <div id="sidebar">
     <header>
       <div class="logo">
-        <a th:href="#">CNMS<span>Child Nutrition Management System</span></a>
+        <p>CNMS</p>
       </div>
     </header>
     <ul class="nav">
       <li>
-        <a th:href="#">
+        <a th:href="@{/Dashboard}">
           <!--<i class="zmdi zmdi-view-dashboard"></i>--> Dashboard
         </a>
       </li>
       <li>
         <a th:href="@{/Children}">
-          <!--<i class="zmdi zmdi-link"></i>--> Child Management
+          <!--<i class="zmdi zmdi-link"></i>--> Child
         </a>
       </li>
       <li>
         <a th:href="@{/ChildGrowth}">
-          <!--<i class="zmdi zmdi-widgets"></i>--> Child Growth Management
+          <!--<i class="zmdi zmdi-widgets"></i>--> Child Growth
         </a>
       </li>
       <li>
         <a th:href="@{/Nutrition}">
-          <!--<i class="zmdi zmdi-calendar"></i>--> Nutrition Management
+          <!--<i class="zmdi zmdi-calendar"></i>--> Nutrition
         </a>
       </li>
       <li sec:authorize="hasRole('ADMIN')">
@@ -57,10 +57,10 @@
       </div>
     </nav>
     <div class="container-fluid">
-      <h1>Simple Sidebar</h1>
+      <h1>CNMS</h1>
       <p>
-        Make sure to keep all page content within the
-        <code>#content</code>.
+        Child Nutrition Management System
+        <code>#AnnetteT</code>.
       </p>
     </div>
   </div>

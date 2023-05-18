@@ -1,46 +1,119 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>CNMS Users</title>
   <link rel="stylesheet" href="/css/tableStyle.css" />
 </head>
 <body>
-<main>
-  <table class="customer-table">
-    <caption>Users</caption>
-    <thead>
-    <tr>
-      <th>#</th>
-      <th>User Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Role</th>
-      <th>State</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-      <td colspan="3">
-        CNMS Users list.
-      </td>
-    </tr>
-    </tfoot>
-    <tbody>
-    <tr th:each="users : ${usersList}" >
-      <td th:field="${users.id}"></td>
-      <td th:field="${users.username}"></td>
-      <td th:field="${users.email}"></td>
-      <td th:field="${users.role}"></td>
-      <td th:field="${users.state}"></td>
-      <td>
-        <a th:href="@{/user/update_user/${users.id}"><i class="fa fa-pencil"></i></a>
-        <a th:href="@{/admin/deactivate_user/${users.id}"><i class="fa fa-trash"></i></a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</main>
+<div id="viewport">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <header>
+      <div class="logo">
+        <p>CNMS</p>
+      </div>
+    </header>
+    <ul class="nav">
+      <li>
+        <a th:href="@{/dashboard}">
+          <!--<i class="zmdi zmdi-view-dashboard"></i>--> Dashboard
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/user/view_children}">
+          <!--<i class="zmdi zmdi-link"></i>--> Child
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/user/view_child_growth}">
+          <!--<i class="zmdi zmdi-widgets"></i>--> Child Growth
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/view_nutritions}">
+          <!--<i class="zmdi zmdi-calendar"></i>--> Nutrition
+        </a>
+      </li>
+      <li sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/Users}">
+          <!--<i class="zmdi zmdi-info-outline"></i>--> User Management
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- Content -->
+  <div id="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+          <!--<li>
+            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
+            </a>
+          </li>-->
+          <!--<li><a th:href="#">Test User</a></li>-->
+          <li><span sec:authentication="username"></span></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <main>
+        <table class="customer-table">
+          <caption>Users</caption>
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>State</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tfoot>
+          <tr>
+            <td colspan="3">
+              CNMS Users list.
+            </td>
+          </tr>
+          </tfoot>
+          <tbody>
+          <tr th:each="model : ${usersList}" >
+            <td th:text="${model.id}"></td>
+            <td th:text="${model.username}"></td>
+            <td th:text="${model.email}"></td>
+            <td th:text="${model.phoneNumber}"></td>
+            <td th:text="${model.state}"></td>
+            <td>
+              <a th:href="@{/user/update_user/${model.id}}"><i class="fa fa-pencil"></i></a>
+              <a th:href="@{/admin/deactivate_user/${model.id}}"><i class="fa fa-trash"></i></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <ul>
+            <li th:class="${currentPage == 0 ? 'disabled' : ''}">
+              <a th:href="@{/users(page=0)}">First</a>
+            </li>
+            <li th:class="${currentPage == 0 ? 'disabled' : ''}">
+              <a th:href="@{/users(page=__${currentPage - 1}__)}">Previous</a>
+            </li>
+            <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${pageNumber == currentPage ? 'active' : ''}">
+              <a th:href="@{/users(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+              <a th:href="@{/users(page=__${currentPage + 1}__)}">Next</a>
+            </li>
+            <li th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+              <a th:href="@{/users(page=${totalPages - 1})}">Last</a>
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
 </body>
 </html>

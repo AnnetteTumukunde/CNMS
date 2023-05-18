@@ -1,10 +1,14 @@
 package rw.auca.cnms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rw.auca.cnms.model.Child;
 import rw.auca.cnms.model.ChildGrowth;
 import rw.auca.cnms.model.EBMIStatus;
+import rw.auca.cnms.model.Users;
 import rw.auca.cnms.repository.IChildGrowthRepository;
 import rw.auca.cnms.repository.IChildRepository;
 
@@ -79,5 +83,14 @@ public class ChildGrowthService implements IChildGrowthService{
     @Override
     public ChildGrowth findOneChildGrowth(Long id) {
         return childGrowthRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<ChildGrowth> getPaginatedChildGrowths(Pageable pageable) {
+        List<ChildGrowth> allChildGrowths = findAllChildGrowth();
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allChildGrowths.size());
+
+        return new PageImpl<>(allChildGrowths.subList(start, end), pageable, allChildGrowths.size());
     }
 }

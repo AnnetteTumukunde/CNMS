@@ -16,9 +16,6 @@ public class RoleService implements IRoleService{
 
     @Override
     public Role createRole(Role role) {
-        role.setCreationDate(new Date());
-        role.setUpdateDate(new Date());
-        role.setVer(0);
         return roleRepository.save(role);
     }
 
@@ -29,9 +26,6 @@ public class RoleService implements IRoleService{
             Role updatedRole = new Role();
             updatedRole.setId(existingRole.getId());
             updatedRole.setName(role.getName() != null ? role.getName() : existingRole.getName());
-            updatedRole.setUpdateDate(new Date());
-            Integer version = existingRole.getVer();
-            updatedRole.setVer(version++);
             return roleRepository.save(updatedRole);
         }
         return null;

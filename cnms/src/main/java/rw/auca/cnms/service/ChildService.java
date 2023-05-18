@@ -1,8 +1,12 @@
 package rw.auca.cnms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rw.auca.cnms.model.Child;
+import rw.auca.cnms.model.Users;
 import rw.auca.cnms.repository.IChildRepository;
 
 import java.util.Date;
@@ -65,5 +69,14 @@ public class ChildService implements IChildService{
     @Override
     public Child findOneChild(Long id) {
         return childRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<Child> getPaginatedChildren(Pageable pageable) {
+        List<Child> allChildren = findAllChildren();
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allChildren.size());
+
+        return new PageImpl<>(allChildren.subList(start, end), pageable, allChildren.size());
     }
 }

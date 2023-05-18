@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Data
@@ -31,5 +32,14 @@ public class Serving extends CommonSpecification {
     @Column
     @Enumerated(EnumType.STRING)
     private EDayServingTime preferredTime;
+
+    @Transient
+    private MultipartFile recipeFile;
+    @Lob
+    @Column
+    private byte[] recipe;
+
+    @Column
+    private String fileName;
 
 }
