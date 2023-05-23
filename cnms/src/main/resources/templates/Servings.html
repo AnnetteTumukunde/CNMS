@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>CNMS Nutrition</title>
-  <link rel="stylesheet" th:href="@{/css/tableStyle.css}">
+  <meta charset="UTF-8">
+  <title>CNMS Serving</title>
+  <link rel="stylesheet" th:href="@{/css/tableStyle.css}" />
   <link rel="stylesheet" th:href="@{/css/dashboardStyle.css}">
-  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 <div id="viewport">
@@ -64,34 +64,38 @@
     <div class="container-fluid">
       <main>
         <table class="customer-table">
-          <caption>Nutrition</caption>
+          <caption>Serving</caption>
           <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Picture</th>
+            <th>Child Growth</th>
+            <th>Nutrition</th>
+            <th>Quantity</th>
+            <th>Quantity Type</th>
+            <th>Preferred Time</th>
+            <th>File Name</th>
             <th>Action</th>
           </tr>
           </thead>
           <tfoot>
           <tr>
             <td colspan="12">
-              CNMS Nutrition list.
+              CNMS Serving list.
             </td>
           </tr>
           </tfoot>
           <tbody>
-          <tr th:each="model : ${nutritionList}" >
+          <tr th:each="model : ${servingList}" >
             <td th:text="${model.id}"></td>
-            <td th:text="${model.name}"></td>
-            <td th:text="${model.description}"></td>
-            <td th:text="${model.type}"></td>
+            <td th:text="${model.childGrowth.bmi}"></td>
+            <td th:text="${model.nutrition.name}"></td>
+            <td th:text="${model.quantity}"></td>
+            <td th:text="${model.quantityType.toString()}"></td>
+            <td th:text="${model.preferredTime}"></td>
             <td th:text="${model.fileName}"></td>
             <td>
-              <a th:href="@{/admin/update_nutrition/${model.id}}"><i class="fas fa-pencil-alt"></i></a>
-              <a th:href="@{/admin/delete_nutrition/${model.id}}"><i class="fas fa-trash"></i></a>
+              <a th:href="@{/admin/update_serving/${model.id}}"><i class="fas fa-pencil-alt"></i></a>
+              <a th:href="@{/admin/delete_serving/${model.id}}"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
           </tbody>

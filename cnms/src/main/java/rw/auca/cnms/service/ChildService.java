@@ -1,6 +1,7 @@
 package rw.auca.cnms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,8 @@ import rw.auca.cnms.model.Child;
 import rw.auca.cnms.model.Users;
 import rw.auca.cnms.repository.IChildRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class ChildService implements IChildService{
     private IChildRepository childRepository;
 
     @Override
-    public Child registerChild(Child child) {
+    public Child registerChild(Child child) throws RuntimeException {
         child.setCreationDate(new Date());
         child.setUpdateDate(new Date());
         child.setVer(0);
@@ -27,7 +30,7 @@ public class ChildService implements IChildService{
     }
 
     @Override
-    public Child updateChild(Child child, Long id) {
+    public Child updateChild(Child child, Long id) throws RuntimeException {
         Child existingChild = childRepository.findById(id).orElse(null);
         if (existingChild != null) {
             Child updatedChild = new Child();
@@ -54,7 +57,7 @@ public class ChildService implements IChildService{
     }
 
     @Override
-    public void deleteChild(Long id) {
+    public void deleteChild(Long id) throws RuntimeException {
         Child existingChild = childRepository.findById(id).orElse(null);
         if (existingChild != null) {
             childRepository.delete(existingChild);
@@ -62,17 +65,17 @@ public class ChildService implements IChildService{
     }
 
     @Override
-    public List<Child> findAllChildren() {
+    public List<Child> findAllChildren() throws RuntimeException {
         return childRepository.findAll();
     }
 
     @Override
-    public Child findOneChild(Long id) {
+    public Child findOneChild(Long id) throws RuntimeException {
         return childRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Page<Child> getPaginatedChildren(Pageable pageable) {
+    public Page<Child> getPaginatedChildren(Pageable pageable) throws RuntimeException {
         List<Child> allChildren = findAllChildren();
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), allChildren.size());

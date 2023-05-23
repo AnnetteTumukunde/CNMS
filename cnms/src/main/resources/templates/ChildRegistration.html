@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>CNMS Child</title>
+    <link rel="stylesheet" th:href="@{/css/dashboardStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/tableStyle.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
+</head>
+<body>
+<div id="viewport">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <header>
+            <div class="logo">
+                <p>CNMS</p>
+            </div>
+        </header>
+        <ul class="nav">
+            <li>
+                <a th:href="@{/dashboard}">
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/children}">
+                    Child
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/childGrowth}">
+                    Child Growth
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/nutritions}">
+                    Nutrition
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/user/view_servings}">
+                    Serving
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/users}">
+                    User
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Content -->
+    <div id="content">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <p class="nav navbar-nav navbar-right">
+                    <span th:text="${username}"></span>
+                </p>
+                <form th:action="@{/logout}" method="post" class="logout">
+                    <input type="submit" value="Logout">
+                </form>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="text">
+                Child Registration
+            </div>
+            <form th:action="@{/user/new_child}" th:object="${child}" method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-control" required/>
+                            <label>Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="fatherName" class="form-control" required/>
+                            <label>Father Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="motherName" class="form-control" required/>
+                            <label>Mother Name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="guardianName" class="form-control" required/>
+                            <label>Guardian Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="fatherPhoneNumber" class="form-control" required/>
+                            <label>Father PhoneNumber</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="motherPhoneNumber" class="form-control" required/>
+                            <label>Mother PhoneNumber</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="guardianPhoneNumber" class="form-control" required/>
+                            <label>Guardian PhoneNumber</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="email" name="fatherEmail" class="form-control" required/>
+                            <label>Father Email</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="email" name="motherEmail" class="form-control" required/>
+                            <label>Mother Email</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="email" name="guardianEmail" class="form-control"/>
+                            <label>Guardian Email</label>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-4">
+                        <div class="form-group">
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                            <label for="dateOfBirth">Date of Birth</label>
+                        </div>
+                    </div>-->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select id="gender" name="gender" class="form-control">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <label for="gender">Gender</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="note">Note:</label>
+                    <div class="note-input">
+                        <textarea id="note" name="note" placeholder="Enter your note here..."></textarea>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <button>Save</button>
+                </center>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

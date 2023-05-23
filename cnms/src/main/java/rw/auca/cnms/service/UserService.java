@@ -45,7 +45,7 @@ public class UserService implements IUserService, UserDetailsService {
                 roleService.createRole(userRole);
                 users.setRole(Arrays.asList(userRole));
             } else {
-                users.setRole(Arrays.asList(roleService.getRoles().get(0)));
+                users.setRole(Arrays.asList(roleService.getRoles().get(roleService.getRoles().size() - 1)));
             }
         }
         users.setCreationDate(new Date());

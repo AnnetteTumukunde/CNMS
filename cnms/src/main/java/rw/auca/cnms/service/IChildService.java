@@ -5,10 +5,11 @@ import org.springframework.data.domain.Pageable;
 import rw.auca.cnms.model.Child;
 import rw.auca.cnms.model.Users;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface IChildService {
-    public Child registerChild(Child child);
+    public Child registerChild(Child child) throws ParseException;
     public Child updateChild(Child child, Long id);
     public void deleteChild(Long id);
     public List<Child> findAllChildren();

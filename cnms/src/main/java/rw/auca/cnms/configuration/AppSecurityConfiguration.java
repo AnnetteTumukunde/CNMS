@@ -58,8 +58,8 @@ public class AppSecurityConfiguration {
         http.authorizeRequests()
                 // URL matching for accessibility
                 .requestMatchers("/assets/**","/js/**","/css/**","/","/signup","/login").permitAll()
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/admin/**")).hasAnyAuthority("ADMIN")
-                .dispatcherTypeMatchers(HttpMethod.valueOf("/user/**")).hasAnyAuthority("USER")
+                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .requestMatchers("/user/**").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 // form login

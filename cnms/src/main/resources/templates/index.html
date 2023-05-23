@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>CNMS Home</title>
-  <link rel="stylesheet" type="text/css" href="/css/homeStyle.scss">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/homeStyle.css}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
 </head>
 <body>
@@ -13,11 +13,13 @@
       <p>CNMS</p>
     </div> <!-- logo -->
     <ul>
-      <li><a th:href="@{/home}" class="active">Home</a></li>
-      <li><a th:href="@{/home}">Menu</a></li>
+      <li><a th:href="@{/nutritions}">Nutrition</a></li>
       <li><a th:href="@{/home}">About</a></li>
       <li><a th:href="@{/home}">Contact</a></li>
     </ul>
+    <form th:action="@{/login}" method="post" class="logout">
+      <input type="submit" value="Login">
+    </form>
     <div class="menuIcon"></div>
   </nav> <!-- nav -->
 
@@ -41,7 +43,7 @@
       <a href="#" class="btn">Read more</a>
     </div> <!-- text -->
     <div class="img">
-      <img src="https://i.ibb.co/vXv864h/salad.jpg" alt="">
+      <img src="/assets/sleeping_baby.jpeg" alt="">
     </div> <!-- img -->
   </header>
 

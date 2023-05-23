@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>CNMS Child</title>
-  <link rel="stylesheet" href="/css/tableStyle.css">
+  <link rel="stylesheet" th:href="@{/css/tableStyle.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboardStyle.css}">
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
 </head>
 <body>
@@ -18,27 +19,32 @@
     <ul class="nav">
       <li>
         <a th:href="@{/dashboard}">
-          <!--<i class="zmdi zmdi-view-dashboard"></i>--> Dashboard
+          Dashboard
         </a>
       </li>
       <li>
-        <a th:href="@{/user/view_children}">
-          <!--<i class="zmdi zmdi-link"></i>--> Child
+        <a th:href="@{/children}">
+          Child
         </a>
       </li>
       <li>
-        <a th:href="@{/user/view_child_growth}">
-          <!--<i class="zmdi zmdi-widgets"></i>--> Child Growth
+        <a th:href="@{/childGrowth}">
+          Child Growth
         </a>
       </li>
       <li>
-        <a th:href="@{/view_nutritions}">
-          <!--<i class="zmdi zmdi-calendar"></i>--> Nutrition
+        <a th:href="@{/nutritions}">
+          Nutrition
+        </a>
+      </li>
+      <li>
+        <a th:href="@{/user/view_servings}">
+          Serving
         </a>
       </li>
       <li sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/Users}">
-          <!--<i class="zmdi zmdi-info-outline"></i>--> User Management
+        <a th:href="@{/users}">
+          User
         </a>
       </li>
     </ul>
@@ -47,20 +53,18 @@
   <div id="content">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-          <!--<li>
-            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-            </a>
-          </li>-->
-          <!--<li><a th:href="#">Test User</a></li>-->
-          <li><span sec:authentication="username"></span></li>
-        </ul>
+        <p class="nav navbar-nav navbar-right">
+          <span th:text="${username}"></span>
+        </p>
+        <form th:action="@{/logout}" method="post" class="logout">
+          <input type="submit" value="Logout">
+        </form>
       </div>
     </nav>
     <div class="container-fluid">
       <main>
         <table class="customer-table">
-          <caption>modelren</caption>
+          <caption>Children</caption>
           <thead>
           <tr>
             <th>#</th>
@@ -77,8 +81,8 @@
           </thead>
           <tfoot>
           <tr>
-            <td colspan="3">
-              CNMS modelren list.
+            <td colspan="12">
+              CNMS children list.
             </td>
           </tr>
           </tfoot>
@@ -94,8 +98,8 @@
             <td th:text="${model.dateOfBirth}"></td>
             <td th:text="${model.gender}"></td>
             <td>
-              <a th:href="@{/user/update_model/${model.id}}"><i class="fa fa-pencil"></i></a>
-              <a th:href="@{/user/delete_model/${model.id}}"><i class="fa fa-trash"></i></a>
+              <a th:href="@{/user/update_model/${model.id}}"><i class="fas fa-pencil-alt"></i></a>
+              <a th:href="@{/user/delete_model/${model.id}}"><i class="fas fa-trash"></i></a>
             </td>
           </tr>
           </tbody>

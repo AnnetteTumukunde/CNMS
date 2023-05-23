@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>CNMS Dashboard</title>
+  <meta charset="UTF-8"/>
+  <title>CNMS ChildGrowth</title>
   <link rel="stylesheet" th:href="@{/css/dashboardStyle.css}">
+  <link rel="stylesheet" th:href="@{/css/tableStyle.css}">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
 </head>
 <body>
 <div id="viewport">
@@ -60,22 +62,28 @@
       </div>
     </nav>
     <div class="container-fluid">
-      <div class="row-container">
-        <div class="nutrition">
-          <a th:href="@{/admin/new_nutrition}">+ Add Nutrition</a>
-        </div>
-        <div class="serving">
-          <a th:href="@{/admin/new_serving}">+ Add serving</a>
-        </div>
+      <div class="text">
+        Nutrition
       </div>
-      <div class="row-container">
-        <div class="child">
-          <a th:href="@{/user/new_child}">+ Register new child</a>
+      <form th:action="@{/user/new_child_growth}" th:object="${childGrowth}" method="post">
+        <div class="field">
+          <input type="text" name="name" required/>
+          <label>Name</label>
         </div>
-        <div class="childGrowth">
-          <a th:href="@{/user/new_child_growth}">+ New child growth</a>
+        <div class="field">
+          <input type="text" name="description" required/>
+          <label>Description</label>
         </div>
-      </div>
+        <br/>
+        <div class="field">
+          <input type="text" name="type" required/>
+          <label>Type</label>
+        </div>
+        <br>
+        <br>
+        <button>Save</button>
+        </center>
+      </form>
     </div>
   </div>
 </div>
